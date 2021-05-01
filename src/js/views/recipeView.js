@@ -1,32 +1,31 @@
 import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
+import View from './view.js';
 
-class RecipeView {
+class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _data;
+  _errorMsg =
+    "Oops! <br> We couldn't find the recipe that you're looking for. <br> Please Try Again.";
+  _msg = 'Hello.';
 
-  render(data) {
-    this._data = data;
-    const markup = this._generateMarkup();
-    this._clear();
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  addHandlerRender(handler) {
+    // Change recipe (click and load)
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
-  _clear() {
-    this._parentElement.innerHTML = '';
+  addHandlerServingUpdate(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const button = e.target.closest('.btn--update-servings');
+      if (button) {
+        console.log(button);
+        const newServings = Number(button.dataset.update);
+        if (newServings >= 1) {
+          handler(newServings);
+        }
+      }
+    });
   }
-
-  renderSpinner = function () {
-    const markup = `
-    <div class="spinner">
-            <svg>
-              <use href="${icons}#icon-loader"></use>
-            </svg>
-          </div>
-          `;
-    this._parentElement.innerHTML = '';
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
-  };
 
   _generateMarkup() {
     return `
@@ -59,12 +58,16 @@ class RecipeView {
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--update-servings" data-update="${
+          this._data.servings - 1
+        }">
           <svg>
             <use href="${icons}#icon-minus-circle"></use>
           </svg>
         </button>
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--update-servings" data-update="${
+          this._data.servings + 1
+        }">
           <svg>
             <use href="${icons}#icon-plus-circle"></use>
           </svg>
@@ -73,9 +76,6 @@ class RecipeView {
     </div>
 
     <div class="recipe__user-generated">
-      <svg>
-        <use href="${icons}#icon-user"></use>
-      </svg>
     </div>
     <button class="btn--round">
       <svg class="">

@@ -22,7 +22,7 @@ html {
 body {
   font-family: "Nunito Sans", sans-serif;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 2;
   color: #615551;
   background-image: linear-gradient(to right bottom, #fbdb89, #f48982);
   background-size: cover;
@@ -442,6 +442,8 @@ body {
 .search-results {
   padding: 3rem 0;
   display: flex;
+  max-height: 100rem;
+  overflow-y: scroll;
   flex-direction: column;
 }
 
@@ -464,17 +466,6 @@ body {
 }
 .pagination__btn--next {
   float: right;
-}
-
-.copyright {
-  color: #918581;
-  font-size: 1.2rem;
-  padding: 0 3.5rem;
-  margin-top: 4rem;
-}
-.copyright .twitter-link:link,
-.copyright .twitter-link:visited {
-  color: #918581;
 }
 
 .recipe {

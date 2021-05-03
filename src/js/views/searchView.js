@@ -7,7 +7,7 @@ class SearchView {
     return searchQuery;
   }
 
-  addHandlerSearch(func) {
+  HandlerSearch(func) {
     this._parentEl.addEventListener('submit', function (e) {
       e.preventDefault();
       func();

@@ -104,7 +104,7 @@
   }
 }
 
-.bookmarks {
+.favourites {
   padding: 1rem 0;
   position: absolute;
   // right: 0;
@@ -137,7 +137,7 @@
   }
 
   &:hover,
-  .nav__btn--bookmarks:hover + & {
+  .nav__btn--favourites:hover + & {
     visibility: visible;
     opacity: 1;
   }

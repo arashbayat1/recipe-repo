@@ -325,7 +325,7 @@ body {
   background-color: #f2efee;
 }
 
-.bookmarks {
+.favourites {
   padding: 1rem 0;
   position: absolute;
   right: -2.5rem;
@@ -337,10 +337,10 @@ body {
   opacity: 0;
   transition: all 0.5s 0.2s;
 }
-.bookmarks__list {
+.favourites__list {
   list-style: none;
 }
-.bookmarks__field {
+.favourites__field {
   cursor: pointer;
   padding: 0 4rem;
   display: flex;
@@ -348,10 +348,10 @@ body {
   height: 100%;
   transition: all 0.3s;
 }
-.bookmarks__field:hover {
+.favourites__field:hover {
   background-color: #f2efee;
 }
-.bookmarks:hover, .nav__btn--bookmarks:hover + .bookmarks {
+.favourites:hover, .nav__btn--favourites:hover + .favourites {
   visibility: visible;
   opacity: 1;
 }
@@ -651,14 +651,20 @@ body {
   opacity: 0;
 }
 
+.inputs {
+  display: block;
+  gap: 2rem 2rem;
+}
+
 .upload {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.6fr 1fr;
   gap: 4rem 6rem;
 }
 .upload__column {
   display: grid;
-  grid-template-columns: 1fr 2.8fr;
+  flex-direction: column;
+  grid-template-columns: 1fr 3fr;
   align-items: center;
   gap: 1.5rem;
 }
@@ -667,11 +673,22 @@ body {
   font-weight: 600;
   color: inherit;
 }
+.upload__column input[type=number] {
+  width: 8rem;
+}
+.upload__column input[id=small] {
+  width: 8rem;
+}
+.upload__column input[id=data] {
+  width: 25rem;
+}
 .upload__column input {
+  width: 19rem;
+  grid-column-start: 2;
   font-size: 1.5rem;
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   transition: all 0.2s;
 }
 .upload__column input::placeholder {

@@ -5,24 +5,33 @@ import View from './view.js';
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _data;
+  _homeButton = document.querySelector('.nav__btn--home');
   _errorMsg =
     "Oops! <br> We couldn't find the recipe that you're looking for. <br> Please Try Again.";
   _msg = 'Hello.';
 
-  addHandlerRender(handler) {
+  HandlerRender(handler) {
     // Change recipe (click and load)
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
-  addHandlerServingUpdate(handler) {
+  HandlerServingUpdate(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const button = e.target.closest('.btn--update-servings');
       if (button) {
-        console.log(button);
         const newServings = Number(button.dataset.update);
         if (newServings >= 1) {
           handler(newServings);
         }
+      }
+    });
+  }
+
+  HandlerBookmark(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const button = e.target.closest('.btn--bookmark');
+      if (button) {
+        handler();
       }
     });
   }
@@ -75,11 +84,16 @@ class RecipeView extends View {
       </div>
     </div>
 
-    <div class="recipe__user-generated">
-    </div>
-    <button class="btn--round">
+    <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+        <svg>
+          <use href="${icons}#icon-user"></use>
+        </svg>
+     </div>
+    <button class="btn--round btn--bookmark">
       <svg class="">
-        <use href="${icons}#icon-bookmark-fill"></use>
+        <use href="${icons}#icon-bookmark${
+      this._data.favourited ? '-fill' : ''
+    }"></use>
       </svg>
     </button>
   </div>

@@ -1,13 +1,17 @@
 import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 
-class ResultsView extends View {
-  _parentElement = document.querySelector('.results');
-  _msg = 'Hello.';
-  _errorMsg = "Oops! We couldn't find that recipe, please search again!";
+class BookmarksView extends View {
+  _parentElement = document.querySelector('.favourites__list');
+  _errorMsg = 'No bookmarks yet. Find a new recipe to add!';
+
+  HandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
 
   _generateMarkupRecipe(recipe) {
     const id = window.location.hash.slice(1);
+    console.log(id);
     return `<li class="preview">
     <a class="preview__link ${
       id == recipe.id ? 'preview__link--active' : ''
@@ -18,11 +22,7 @@ class ResultsView extends View {
       <div class="preview__data">
         <h4 class="preview__title">${recipe.title}</h4>
         <p class="preview__publisher">${recipe.publisher}</p>
-        <div class="preview__user-generated ${recipe.key ? '' : 'hidden'}">
-          <svg>
-            <use href="${icons}#icon-user"></use>
-          </svg>
-        </div>
+        
       </div>
     </a>
   </li>`;
@@ -34,4 +34,4 @@ class ResultsView extends View {
   }
 }
 
-export default new ResultsView();
+export default new BookmarksView();

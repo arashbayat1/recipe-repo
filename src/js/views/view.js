@@ -27,7 +27,6 @@ export default class View {
           currEl.setAttribute(attribute.name, attribute.value)
         );
         if (newEl.firstChild?.nodeValue.trim() !== '') {
-          console.log('boom', newEl.firstChild.nodeValue);
           currEl.textContent = newEl.textContent;
         }
       }
@@ -50,7 +49,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderMsg(message) {
+  renderMsg(message = this._msg) {
     const markup = `
     <div class="message">
           <div>

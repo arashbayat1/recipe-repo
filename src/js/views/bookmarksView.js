@@ -1,8 +1,7 @@
 import View from './view.js';
-import icons from 'url:../../img/icons.svg';
 
 class BookmarksView extends View {
-  _parentElement = $('.favourites__list')[0];
+  _parentElement = $('.favourites__list');
   _errorMsg = 'No bookmarks yet. Find a new recipe to add!';
 
   HandlerRender(handler) {
@@ -11,7 +10,6 @@ class BookmarksView extends View {
 
   _generateMarkupRecipe(recipe) {
     const id = window.location.hash.slice(1);
-    console.log(id);
     return `<li class="preview">
     <a class="preview__link ${
       id == recipe.id ? 'preview__link--active' : ''
@@ -29,7 +27,6 @@ class BookmarksView extends View {
   }
 
   _generateMarkup() {
-    console.log(this._data);
     return this._data.map(this._generateMarkupRecipe).join('');
   }
 }

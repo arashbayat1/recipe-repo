@@ -3,9 +3,9 @@ import { Fraction } from 'fractional';
 import View from './view.js';
 
 class RecipeView extends View {
-  _parentElement = $('.recipe')[0];
+  _parentElement = $('.recipe');
   _data;
-  _homeButton = $('.nav__btn--home')[0];
+  _homeButton = $('.nav__btn--home');
   _errorMsg =
     "Oops! <br> We couldn't find the recipe that you're looking for. <br> Please Try Again.";
   _msg = 'Hello.';
@@ -16,7 +16,7 @@ class RecipeView extends View {
   }
 
   HandlerServingUpdate(handler) {
-    this._parentElement.addEventListener('click', function (e) {
+    this._parentElement.click(function (e) {
       const button = e.target.closest('.btn--update-servings');
       if (button) {
         const newServings = Number(button.dataset.update);
@@ -28,7 +28,7 @@ class RecipeView extends View {
   }
 
   HandlerBookmark(handler) {
-    this._parentElement.addEventListener('click', function (e) {
+    this._parentElement.click(function (e) {
       const button = e.target.closest('.btn--bookmark');
       if (button) {
         handler();
@@ -37,7 +37,7 @@ class RecipeView extends View {
   }
 
   HandlerAddShopping(handler) {
-    this._parentElement.addEventListener('click', function (e) {
+    this._parentElement.click(function (e) {
       const button = e.target.closest('.recipe_btn--add');
       if (button) {
         handler();

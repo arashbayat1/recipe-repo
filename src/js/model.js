@@ -54,7 +54,6 @@ export async function loadSearch(query) {
     state.search.query = query;
 
     const data = await getJSON(`${API_URL}?search=${query}&key=${API_KEY}`);
-    console.log(data);
 
     state.search.results = data.data.recipes.map(recipe => {
       let searchResult = {
@@ -81,32 +80,16 @@ export function updateServings(servings) {
   state.recipe.servings = servings;
 }
 
-// export function toggleBookmark(recipe, bool) {
-//   console.log(2222);
-//   console.log(recipe);
-//   if (bool) {
-//     const idx = state.favourites.findIndex(
-//       favourite => (favourite.id = recipe.id)
-//     );
-//     recipe.favourited = false;
-//     state.favourites.splice(idx, 1);
-//   } else {
-//     state.favourites.push(recipe);
-//     recipe.favourited = true;
-//   }
-//   localStorage.setItem('favourites', JSON.stringify(state.favourites));
-// }
-
-export function addBookmark(recipe) {
-  state.recipe.favourited = true;
-  state.favourites.push(recipe);
-  localStorage.setItem('favourites', JSON.stringify(state.favourites));
-}
-
-export function deleteBookmark(id) {
-  state.recipe.favourited = false;
-  let idx = state.favourites.findIndex(el => el.id === id);
-  state.favourites.splice(idx, 1);
+export function toggleBookmark(recipe) {
+  if (recipe.favourited) {
+    const idx = state.favourites.findIndex(
+      favourite => favourite.id == recipe.id
+    );
+    state.favourites.splice(idx, 1);
+  } else {
+    state.favourites.push(recipe);
+  }
+  recipe.favourited = !recipe.favourited;
   localStorage.setItem('favourites', JSON.stringify(state.favourites));
 }
 

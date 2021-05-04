@@ -46,7 +46,6 @@ async function runSearch() {
     }
 
     await model.loadSearch(query);
-    console.log(model.state.search.results);
     ResultsView.render(model.state.search.results);
   } catch (err) {
     console.error(err);
@@ -60,15 +59,9 @@ function handleServings(servings) {
 
 function handleToggleBookmark() {
   let recipe = model.state.recipe;
-
-  console.log(model.state.recipe.favourited);
-  if (!model.state.recipe.favourited) model.addBookmark(model.state.recipe);
-  else model.deleteBookmark(model.state.recipe.id);
-  //model.toggleBookmark(model.state.recipe, model.state.recipe.favourited);
-  console.log(model.state.recipe);
+  model.toggleBookmark(model.state.recipe);
   RecipeView.update(model.state.recipe);
   BookmarksView.render(model.state.favourites);
-  console.log(model.state.favourites);
 }
 
 function handleAddShopping() {
@@ -76,7 +69,6 @@ function handleAddShopping() {
     let existsItem = model.state.shoppingList.find(
       listIng => ing.description == listIng.ingredient
     );
-    console.log(existsItem);
     if (existsItem) {
       model.updateCount(existsItem.id, existsItem.count + ing.quantity);
     } else {
@@ -84,25 +76,18 @@ function handleAddShopping() {
     }
   });
   ListView.render(model.state.shoppingList);
-  console.log(model.state.shoppingList);
 }
 
 function handleUpdateItemCount(id, val) {
-  console.log(model.state.shoppingList);
-  console.log(id, val);
   model.updateCount(id, val);
-  console.log(model.state.shoppingList);
 }
 
 function handleDeleteShoppingItem(id) {
-  console.log(model.state.shoppingList);
   model.deleteListItem(id);
   ListView.render(model.state.shoppingList);
-  console.log(model.state.shoppingList);
 }
 
 function handleDeleteShoppingAll() {
-  console.log(model.state.shoppingList);
   model.state.shoppingList = [];
   localStorage.removeItem('shoppingList');
   ListView.render(model.state.shoppingList);

@@ -1,21 +1,22 @@
 class SearchView {
-  _parentEl = $('.search')[0];
+  _parentEl = $('.search');
+  search = this._parentEl.find('.search__field')[0];
 
   getQuery() {
-    const searchQuery = this._parentEl.querySelector('.search__field').value;
+    const searchQuery = this.search.value;
     this._clearInput();
     return searchQuery;
   }
 
   HandlerSearch(func) {
-    this._parentEl.addEventListener('submit', function (e) {
+    this._parentEl.submit(function (e) {
       e.preventDefault();
       func();
     });
   }
 
   _clearInput() {
-    this._parentEl.querySelector('.search__field').value = '';
+    this.search.value = '';
   }
 }
 

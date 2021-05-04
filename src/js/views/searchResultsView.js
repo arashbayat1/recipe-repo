@@ -2,7 +2,7 @@ import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
-  _parentElement = $('.results')[0];
+  _parentElement = $('.results');
   _msg = 'Hello.';
   _errorMsg = "Oops! We couldn't find that recipe, please search again!";
 
@@ -29,7 +29,6 @@ class ResultsView extends View {
   }
 
   _generateMarkup() {
-    console.log(this._data);
     return this._data.map(this._generateMarkupRecipe).join('');
   }
 }

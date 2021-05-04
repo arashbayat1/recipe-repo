@@ -1,10 +1,9 @@
 import icons from 'url:../../img/icons.svg';
-import { Fraction } from 'fractional';
 import View from './view.js';
 
 class ListView extends View {
-  _parentElement = $('.shopping__list')[0];
-  _allParentElement = $('.shopping')[0];
+  _parentElement = $('.shopping__list');
+  _allParentElement = $('.shopping');
   _errorMsg = 'Your list is empty. Add some tasty ingredients!';
 
   HandlerRender(handler) {
@@ -12,13 +11,12 @@ class ListView extends View {
   }
 
   HandlerUpdateItemCount(handler) {
-    this._parentElement.addEventListener('click', function (e) {
+    this._parentElement.click(function (e) {
       if (
         e.target.matches('.shopping__count-value') &&
         e.target.step != 'null' &&
         e.target.value >= 0
       ) {
-        console.log(e.target.value);
         handler(
           $(e.target).closest('.shopping__item').data('id'),
           Number(e.target.value)
@@ -28,7 +26,7 @@ class ListView extends View {
   }
 
   HandlerDeleteShoppingItem(handler) {
-    this._parentElement.addEventListener('click', function (e) {
+    this._parentElement.click(function (e) {
       if (e.target.closest('.shopping_delete, .shopping__delete *')) {
         handler($(e.target).closest('.shopping__item').data('id'));
       }
@@ -36,7 +34,7 @@ class ListView extends View {
   }
 
   HandlerDeleteShoppingAll(handler) {
-    this._allParentElement.addEventListener('click', function (e) {
+    this._allParentElement.click(function (e) {
       if (e.target.closest('.btn--delete')) {
         handler();
       }
@@ -45,7 +43,6 @@ class ListView extends View {
 
   _generateMarkupRecipe(ing) {
     const id = window.location.hash.slice(1);
-    console.log(id);
     return `<li class="shopping__item" data-id="${ing.id}">
     <div class="shopping__count">
                 <input type="number" value="${ing.count}" step="${ing.step}" class="shopping__count-value">
@@ -62,7 +59,6 @@ class ListView extends View {
   }
 
   _generateMarkup() {
-    console.log(this._data);
     return this._data.map(this._generateMarkupRecipe).join('');
   }
 }

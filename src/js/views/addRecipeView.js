@@ -2,34 +2,34 @@ import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 
 class AddRecipeView extends View {
-  _parentElement = $('.upload')[0];
-  _window = $('.add-recipe-window')[0];
-  _overlay = $('.overlay')[0];
-  _openButton = $('.nav__btn--add-recipe')[0];
-  _closeButton = $('.btn--close-modal')[0];
+  _parentElement = $('.upload');
+  _window = $('.add-recipe-window');
+  _overlay = $('.overlay');
+  _openButton = $('.nav__btn--add-recipe');
+  _closeButton = $('.btn--close-modal');
   _msg = 'Successfully Added Recipe. Redirecting now, Thank you! 😊';
 
   toggleWindow() {
-    this._overlay.classList.toggle('hidden');
-    this._window.classList.toggle('hidden');
+    this._overlay.toggleClass('hidden');
+    this._window.toggleClass('hidden');
   }
 
   closeWindow() {
-    this._overlay.classList.add('hidden');
-    this._window.classList.add('hidden');
+    this._overlay.addClass('hidden');
+    this._window.addClass('hidden');
   }
 
   HandlerToggleWindow() {
-    this._openButton.addEventListener('click', this.toggleWindow.bind(this));
-    this._closeButton.addEventListener('click', this.toggleWindow.bind(this));
+    this._openButton.click(this.toggleWindow.bind(this));
+    this._closeButton.click(this.toggleWindow.bind(this));
   }
 
   HandlerCloseWindow() {
-    this._overlay.addEventListener('click', this.closeWindow.bind(this));
+    this._overlay.click(this.closeWindow.bind(this));
   }
 
   HandlerAddRecipe(handler) {
-    this._parentElement.addEventListener('submit', function (e) {
+    this._parentElement.submit(function (e) {
       e.preventDefault();
       const data = Object.fromEntries([...new FormData(this)]);
       handler(data);

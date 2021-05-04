@@ -19,7 +19,6 @@ export default class View {
     const newEls = Array.from(newDOM.querySelectorAll('*'));
     const currEls = Array.from(this._parentElement.querySelectorAll('*'));
 
-    //this._parentElement.insertAdjacentHTML('afterbegin', markup);
     newEls.forEach((newEl, i) => {
       const currEl = currEls[i];
       if (!newEl.isEqualNode(currEl)) {

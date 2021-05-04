@@ -9,6 +9,7 @@ import AddRecipeView from './views/addRecipeView.js';
 import recipeView from './views/recipeView.js';
 import { ADD_RECIPE_SUCCESS_MSEC } from './config.js';
 import addRecipeView from './views/addRecipeView.js';
+import ListView from './views/ListView.js';
 
 if (module.hot) {
   module.hot.accept();
@@ -70,6 +71,31 @@ function handleToggleBookmark() {
   console.log(model.state.favourites);
 }
 
+function handleAddShopping() {
+  model.state.recipe.ingredients.forEach(ing => {
+    const item = model.addListItem(ing.quantity, ing.unit, ing.description);
+  });
+  ListView.render(model.state.shoppingList);
+  console.log(model.state.shoppingList);
+}
+
+function handleDeleteShoppingItem(id) {
+  console.log(id);
+  console.log(222);
+  console.log(model.state.shoppingList);
+  model.deleteListItem(id);
+  ListView.render(model.state.shoppingList);
+  console.log(model.state.shoppingList);
+}
+
+function handleDeleteShoppingAll() {
+  console.log(model.state.shoppingList);
+  model.state.shoppingList = [];
+  console.log(model.state.shoppingList);
+  ListView.render(model.state.shoppingList);
+  localStorage.removeItem('shoppingList');
+}
+
 async function handleAddRecipe(recipe) {
   try {
     AddRecipeView.renderSpinner();
@@ -91,10 +117,14 @@ async function handleAddRecipe(recipe) {
 
 function init() {
   BookmarksView.HandlerRender(BookmarksView.render(model.state.favourites));
+  ListView.HandlerRender(ListView.render(model.state.shoppingList));
   RecipeView.HandlerRender(handleRecipes);
   SearchView.HandlerSearch(runSearch);
   RecipeView.HandlerServingUpdate(handleServings);
   RecipeView.HandlerBookmark(handleToggleBookmark);
+  RecipeView.HandlerAddShopping(handleAddShopping);
+  ListView.HandlerDeleteShoppingItem(handleDeleteShoppingItem);
+  ListView.HandlerDeleteShoppingAll(handleDeleteShoppingAll);
   AddRecipeView.HandlerToggleWindow();
   AddRecipeView.HandlerCloseWindow();
   AddRecipeView.HandlerAddRecipe(handleAddRecipe);

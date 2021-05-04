@@ -55,18 +55,16 @@
   }
 }
 
-.btn--inline {
+.btn--delete {
   color: $color-primary;
   font-size: 1.3rem;
   font-weight: 600;
   border: none;
   background-color: $color-grey-light-1;
-  padding: 0.8rem 1.2rem;
+  padding: 0.8rem 13.43rem;
   border-radius: 10rem;
   cursor: pointer;
-
-  display: flex;
-  align-items: center;
+  display: block;
   transition: all 0.2s;
 
   svg {

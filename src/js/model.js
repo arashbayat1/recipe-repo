@@ -1,6 +1,8 @@
 import { json } from 'body-parser';
 import { API_URL, API_KEY } from './config';
 import { getJSON, postJSON } from './helpers';
+import uniqid from 'uniqid';
+import { model } from 'mongoose';
 
 export const state = {
   recipe: {},
@@ -9,6 +11,7 @@ export const state = {
     results: [],
   },
   favourites: [],
+  shoppingList: [],
 };
 
 function createNewRecipe(data) {
@@ -78,35 +81,34 @@ export function updateServings(servings) {
   state.recipe.servings = servings;
 }
 
-export function toggleBookmark(recipe, bool) {
-  console.log(2222);
-  console.log(recipe);
-  if (bool) {
-    const idx = state.favourites.findIndex(
-      favourite => (favourite.id = recipe.id)
-    );
-    recipe.favourited = false;
-    state.favourites.splice(idx, 1);
-  } else {
-    state.favourites.push(recipe);
-    recipe.favourited = true;
-  }
-  localStorage.setItem('favourites', JSON.stringify(state.favourites));
-}
+// export function toggleBookmark(recipe, bool) {
+//   console.log(2222);
+//   console.log(recipe);
+//   if (bool) {
+//     const idx = state.favourites.findIndex(
+//       favourite => (favourite.id = recipe.id)
+//     );
+//     recipe.favourited = false;
+//     state.favourites.splice(idx, 1);
+//   } else {
+//     state.favourites.push(recipe);
+//     recipe.favourited = true;
+//   }
+//   localStorage.setItem('favourites', JSON.stringify(state.favourites));
+// }
 
-export const addBookmark = function (recipe) {
+export function addBookmark(recipe) {
   state.recipe.favourited = true;
   state.favourites.push(recipe);
   localStorage.setItem('favourites', JSON.stringify(state.favourites));
-};
+}
 
-export const deleteBookmark = function (id) {
+export function deleteBookmark(id) {
   state.recipe.favourited = false;
   let idx = state.favourites.findIndex(el => el.id === id);
   state.favourites.splice(idx, 1);
   localStorage.setItem('favourites', JSON.stringify(state.favourites));
-};
-
+}
 export async function addRecipe(recipe) {
   try {
     const ings = Object.entries(recipe).filter(data =>
@@ -145,10 +147,35 @@ export async function addRecipe(recipe) {
   }
 }
 
+export function addListItem(count, unit, ingredient) {
+  const item = {
+    id: uniqid(),
+    count,
+    unit,
+    ingredient,
+  };
+  state.shoppingList.push(item);
+  localStorage.setItem('shoppingList', JSON.stringify(state.shoppingList));
+}
+
+export function deleteListItem(id) {
+  const idx = state.shoppingList.findIndex(item => id == item.id);
+  state.shoppingList.splice(idx, 1);
+  localStorage.setItem('shoppingList', JSON.stringify(state.shoppingList));
+}
+
+export function updateCount(id, newCount) {
+  state.shoppingList.find(item => id == item.id).count = newCount;
+}
+
 function init() {
   const storedFavourites = localStorage.getItem('favourites');
+  const storedShoppingList = localStorage.getItem('shoppingList');
   if (storedFavourites) {
     state.favourites = JSON.parse(storedFavourites);
+  }
+  if (storedShoppingList) {
+    state.shoppingList = JSON.parse(storedShoppingList);
   }
 }
 init();

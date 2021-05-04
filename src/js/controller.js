@@ -7,7 +7,7 @@ import ResultsView from './views/searchResultsView.js';
 import BookmarksView from './views/bookmarksView.js';
 import AddRecipeView from './views/addRecipeView.js';
 import recipeView from './views/recipeView.js';
-import { ADD_RECIPE_SUCCESS_MSEC } from './config.js';
+import { ADD_RECIPE_SUCCESS_MSEC, ADD_RECIPE_FAIL_MSEC } from './config.js';
 import addRecipeView from './views/addRecipeView.js';
 import ListView from './views/ListView.js';
 
@@ -73,15 +73,28 @@ function handleToggleBookmark() {
 
 function handleAddShopping() {
   model.state.recipe.ingredients.forEach(ing => {
-    const item = model.addListItem(ing.quantity, ing.unit, ing.description);
+    let existsItem = model.state.shoppingList.find(
+      listIng => ing.description == listIng.ingredient
+    );
+    console.log(existsItem);
+    if (existsItem) {
+      model.updateCount(existsItem.id, existsItem.count + ing.quantity);
+    } else {
+      const item = model.addListItem(ing.quantity, ing.unit, ing.description);
+    }
   });
   ListView.render(model.state.shoppingList);
   console.log(model.state.shoppingList);
 }
 
+function handleUpdateItemCount(id, val) {
+  console.log(model.state.shoppingList);
+  console.log(id, val);
+  model.updateCount(id, val);
+  console.log(model.state.shoppingList);
+}
+
 function handleDeleteShoppingItem(id) {
-  console.log(id);
-  console.log(222);
   console.log(model.state.shoppingList);
   model.deleteListItem(id);
   ListView.render(model.state.shoppingList);
@@ -91,9 +104,8 @@ function handleDeleteShoppingItem(id) {
 function handleDeleteShoppingAll() {
   console.log(model.state.shoppingList);
   model.state.shoppingList = [];
-  console.log(model.state.shoppingList);
-  ListView.render(model.state.shoppingList);
   localStorage.removeItem('shoppingList');
+  ListView.render(model.state.shoppingList);
 }
 
 async function handleAddRecipe(recipe) {
@@ -107,11 +119,13 @@ async function handleAddRecipe(recipe) {
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     setTimeout(function () {
-      AddRecipeView.HandlerToggleWindow();
+      AddRecipeView.closeWindow();
     }, ADD_RECIPE_SUCCESS_MSEC);
   } catch (err) {
-    console.log('wrong recipe', err);
     AddRecipeView.renderError(err.message);
+    setTimeout(function () {
+      AddRecipeView.render('render');
+    }, ADD_RECIPE_FAIL_MSEC);
   }
 }
 
@@ -123,6 +137,7 @@ function init() {
   RecipeView.HandlerServingUpdate(handleServings);
   RecipeView.HandlerBookmark(handleToggleBookmark);
   RecipeView.HandlerAddShopping(handleAddShopping);
+  ListView.HandlerUpdateItemCount(handleUpdateItemCount);
   ListView.HandlerDeleteShoppingItem(handleDeleteShoppingItem);
   ListView.HandlerDeleteShoppingAll(handleDeleteShoppingAll);
   AddRecipeView.HandlerToggleWindow();

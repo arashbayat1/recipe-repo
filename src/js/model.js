@@ -109,22 +109,28 @@ export function deleteBookmark(id) {
   state.favourites.splice(idx, 1);
   localStorage.setItem('favourites', JSON.stringify(state.favourites));
 }
+
 export async function addRecipe(recipe) {
   try {
     const ings = Object.entries(recipe).filter(data =>
       data[0].startsWith('ingredient')
     );
     let ingredients = [];
+    if (ings[2][1] == '') {
+      throw new Error('Oops! Make sure to add an ingredient!');
+    }
     for (let i = 0; i < ings.length - 1; i += 3) {
       if (ings[i + 2][1] == '') {
-        if (ings[i][1] != '' && ings[i + 1][1] != '') {
+        if (ings[i][1] != '' || ings[i + 1][1] != '') {
           throw new Error('Oops! Make sure to add the ingredient itself!');
         }
         continue;
+      } else if (Number(ings[i][1]) < 0) {
+        throw new Error("Oops! You can't have negative ingredients!");
       }
       ings[i][1] = ings[i][1].replaceAll(' ', '');
       ingredients.push({
-        qty: ings[i][1] != '' ? Number(ings[i][1]) : null,
+        quantity: ings[i][1] != '' ? Number(ings[i][1]) : null,
         unit: ings[i + 1][1].replaceAll(' ', ''),
         description: ings[i + 2][1],
       });
@@ -140,7 +146,6 @@ export async function addRecipe(recipe) {
     };
     const data = await postJSON(`${API_URL}?key=${API_KEY}`, newRecipe);
     state.recipe = createNewRecipe(data);
-    console.log(state.recipe);
     addBookmark(state.recipe);
   } catch (err) {
     throw err;
@@ -151,6 +156,7 @@ export function addListItem(count, unit, ingredient) {
   const item = {
     id: uniqid(),
     count,
+    step: count,
     unit,
     ingredient,
   };
@@ -165,7 +171,9 @@ export function deleteListItem(id) {
 }
 
 export function updateCount(id, newCount) {
-  state.shoppingList.find(item => id == item.id).count = newCount;
+  state.shoppingList.find(item => id == item.id).count =
+    newCount == 0 ? null : newCount;
+  localStorage.setItem('shoppingList', JSON.stringify(state.shoppingList));
 }
 
 function init() {

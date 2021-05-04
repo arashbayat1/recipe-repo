@@ -1,5 +1,5 @@
 class SearchView {
-  _parentEl = document.querySelector('.search');
+  _parentEl = $('.search')[0];
 
   getQuery() {
     const searchQuery = this._parentEl.querySelector('.search__field').value;

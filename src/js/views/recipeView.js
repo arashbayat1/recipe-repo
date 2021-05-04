@@ -3,9 +3,9 @@ import { Fraction } from 'fractional';
 import View from './view.js';
 
 class RecipeView extends View {
-  _parentElement = document.querySelector('.recipe');
+  _parentElement = $('.recipe')[0];
   _data;
-  _homeButton = document.querySelector('.nav__btn--home');
+  _homeButton = $('.nav__btn--home')[0];
   _errorMsg =
     "Oops! <br> We couldn't find the recipe that you're looking for. <br> Please Try Again.";
   _msg = 'Hello.';

@@ -2,7 +2,7 @@ import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 
 class BookmarksView extends View {
-  _parentElement = document.querySelector('.favourites__list');
+  _parentElement = $('.favourites__list')[0];
   _errorMsg = 'No bookmarks yet. Find a new recipe to add!';
 
   HandlerRender(handler) {

@@ -27,9 +27,9 @@ class RecipeView extends View {
     });
   }
 
-  HandlerBookmark(handler) {
+  HandlerFavourite(handler) {
     this._parentElement.click(function (e) {
-      const button = e.target.closest('.btn--bookmark');
+      const button = e.target.closest('.btn--favourite');
       if (button) {
         handler();
       }
@@ -98,7 +98,7 @@ class RecipeView extends View {
           <use href="${icons}#icon-user"></use>
         </svg>
      </div>
-    <button class="btn--round btn--bookmark">
+    <button class="btn--round btn--favourite">
       <svg class="">
         <use href="${icons}#icon-bookmark${
       this._data.favourited ? '-fill' : ''

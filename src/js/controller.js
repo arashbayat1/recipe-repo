@@ -4,12 +4,12 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import SearchView from './views/searchView.js';
 import ResultsView from './views/searchResultsView.js';
-import BookmarksView from './views/bookmarksView.js';
+import FavouritesView from './views/favouritesView.js';
 import AddRecipeView from './views/addRecipeView.js';
 import recipeView from './views/recipeView.js';
 import { ADD_RECIPE_SUCCESS_MSEC, ADD_RECIPE_FAIL_MSEC } from './config.js';
 import addRecipeView from './views/addRecipeView.js';
-import ListView from './views/ListView.js';
+import ListView from './views/listView.js';
 
 if (module.hot) {
   module.hot.accept();
@@ -25,7 +25,7 @@ const handleRecipes = async function () {
     RecipeView.renderSpinner();
 
     ResultsView.update(model.state.search.results);
-    BookmarksView.update(model.state.favourites);
+    FavouritesView.update(model.state.favourites);
 
     // Load Recipe
     await model.loadRecipe(id);
@@ -57,11 +57,11 @@ function handleServings(servings) {
   RecipeView.update(model.state.recipe);
 }
 
-function handleToggleBookmark() {
+function handleToggleFavourite() {
   let recipe = model.state.recipe;
-  model.toggleBookmark(model.state.recipe);
+  model.toggleFavourite(model.state.recipe);
   RecipeView.update(model.state.recipe);
-  BookmarksView.render(model.state.favourites);
+  FavouritesView.render(model.state.favourites);
 }
 
 function handleAddShopping() {
@@ -99,7 +99,7 @@ async function handleAddRecipe(recipe) {
     await model.addRecipe(recipe);
     recipeView.render(model.state.recipe);
     addRecipeView.renderMsg();
-    BookmarksView.render(model.state.favourites);
+    FavouritesView.render(model.state.favourites);
 
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
@@ -115,12 +115,12 @@ async function handleAddRecipe(recipe) {
 }
 
 function init() {
-  BookmarksView.HandlerRender(BookmarksView.render(model.state.favourites));
+  FavouritesView.HandlerRender(FavouritesView.render(model.state.favourites));
   ListView.HandlerRender(ListView.render(model.state.shoppingList));
   RecipeView.HandlerRender(handleRecipes);
   SearchView.HandlerSearch(runSearch);
   RecipeView.HandlerServingUpdate(handleServings);
-  RecipeView.HandlerBookmark(handleToggleBookmark);
+  RecipeView.HandlerFavourite(handleToggleFavourite);
   RecipeView.HandlerAddShopping(handleAddShopping);
   ListView.HandlerUpdateItemCount(handleUpdateItemCount);
   ListView.HandlerDeleteShoppingItem(handleDeleteShoppingItem);

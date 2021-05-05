@@ -80,7 +80,7 @@ export function updateServings(servings) {
   state.recipe.servings = servings;
 }
 
-export function toggleBookmark(recipe) {
+export function toggleFavourite(recipe) {
   if (recipe.favourited) {
     const idx = state.favourites.findIndex(
       favourite => favourite.id == recipe.id
@@ -129,7 +129,7 @@ export async function addRecipe(recipe) {
     };
     const data = await postJSON(`${API_URL}?key=${API_KEY}`, newRecipe);
     state.recipe = createNewRecipe(data);
-    addBookmark(state.recipe);
+    addFavourite(state.recipe);
   } catch (err) {
     throw err;
   }

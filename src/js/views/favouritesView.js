@@ -1,8 +1,8 @@
 import View from './view.js';
 
-class BookmarksView extends View {
+class FavouritesView extends View {
   _parentElement = $('.favourites__list');
-  _errorMsg = 'No bookmarks yet. Find a new recipe to add!';
+  _errorMsg = 'No favourites yet. Find a new recipe to add!';
 
   HandlerRender(handler) {
     window.addEventListener('load', handler);
@@ -31,4 +31,4 @@ class BookmarksView extends View {
   }
 }
 
-export default new BookmarksView();
+export default new FavouritesView();

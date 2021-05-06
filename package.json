@@ -30,6 +30,7 @@
     "fractional": "^1.0.0",
     "regenerator-runtime": "^0.13.7",
     "sass": "^1.32.8",
+    "siiimple-toast": "^3.1.7",
     "uniqid": "^5.3.0"
   }
 }

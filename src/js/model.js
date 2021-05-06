@@ -1,8 +1,6 @@
-import { json } from 'body-parser';
 import { API_URL, API_KEY } from './config';
 import { getJSON, postJSON } from './helpers';
 import uniqid from 'uniqid';
-import { model } from 'mongoose';
 
 export const state = {
   recipe: {},

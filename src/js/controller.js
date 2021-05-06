@@ -10,6 +10,8 @@ import recipeView from './views/recipeView.js';
 import { ADD_RECIPE_SUCCESS_MSEC, ADD_RECIPE_FAIL_MSEC } from './config.js';
 import addRecipeView from './views/addRecipeView.js';
 import ListView from './views/listView.js';
+import toast from 'siiimple-toast';
+import 'siiimple-toast/dist/style.css';
 
 if (module.hot) {
   module.hot.accept();
@@ -74,6 +76,11 @@ function handleAddShopping() {
     } else {
       const item = model.addListItem(ing.quantity, ing.unit, ing.description);
     }
+  });
+  toast.success('Your Shopping Cart has been Updated!', {
+    position: 'top|right',
+    margin: 20,
+    duration: 1000,
   });
   ListView.render(model.state.shoppingList);
 }

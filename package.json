@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Recipe Database and Application",
   "engines": {
-    "node": "14.x"
+    "node": "14.13.1"
   },
   "main": "index.html",
   "scripts": {

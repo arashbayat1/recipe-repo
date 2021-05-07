@@ -9,6 +9,10 @@ class AddRecipeView extends View {
   _closeButton = $('.btn--close-modal');
   _msg = 'Successfully Added Recipe. Redirecting now, Thank you! 😊';
 
+  HandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
+
   toggleWindow() {
     this._overlay.toggleClass('hidden');
     this._window.toggleClass('hidden');
@@ -36,15 +40,48 @@ class AddRecipeView extends View {
     });
   }
 
+  // HandlerChangeLink() {
+  //   this._parentElement.children('.change__btn').click(console.log('boop'));
+  //   this._parentElement.children('.change__btn').click(this.renderLink());
+  // }
+
+  renderLink() {
+    const markup = `
+    <div class="link">
+            <div>
+              <svg>
+                <use href="${icons}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>Please get an API key from this </p> 
+            <a href= "http://forkify-api.herokuapp.com/v2" target="_blank">link</a>
+            <label></label>
+            <input
+      required
+      name="key"
+      type="text"
+    />
+    <button class="btn--round change__btn">
+    <span>Change Key</span>
+    </button>
+          </div>`;
+    this._clear();
+    this._parentElement.prepend(markup);
+  }
+
   _generateMarkup() {
-    return `<div class="upload__column">
+    // <button type="button" class="btn--round change__btn">
+    // <span>Change Key</span>
+    // </button>
+    return `
+  <div class="upload__column">
     <h3 class="upload__heading">Recipe data</h3>
     <label>Title</label>
-    <input value="Testyy" id="data" required name="title" type="text" />
+    <input value="" id="data" required name="title" type="text" />
 
     <label>URL</label>
     <input
-      value="Testyy"
+      value=""
       id="data"
       required
       name="sourceUrl"
@@ -52,11 +89,11 @@ class AddRecipeView extends View {
     />
 
     <label>Image URL</label>
-    <input value="Testyy" id="data" required name="image" type="text" />
+    <input value="" id="data" required name="image" type="text" />
 
     <label>Publisher</label>
     <input
-      value="Testyy"
+      value=""
       id="data"
       required
       name="publisher"
@@ -64,10 +101,10 @@ class AddRecipeView extends View {
     />
 
     <label>Prep time</label>
-    <input value="23" required name="cookingTime" type="number" />
+    <input value="" required name="cookingTime" type="number" />
 
     <label>Servings</label>
-    <input value="23" required name="servings" type="number" />
+    <input value="" required name="servings" type="number" />
   </div>
 
   <div class="upload__column">
@@ -177,13 +214,13 @@ class AddRecipeView extends View {
       <input type="text" name="ingredient-6" placeholder="Ingredient" />
     </div>
   </div>
-
   <button class="btn upload__btn">
     <svg>
       <use href="${icons}#icon-upload-cloud"></use>
     </svg>
     <span>Upload</span>
-  </button>`;
+  </button>
+  `;
   }
 }
 

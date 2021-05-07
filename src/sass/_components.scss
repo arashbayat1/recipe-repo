@@ -208,4 +208,48 @@
     line-height: 1.5;
     font-weight: 600;
   }
+  a {
+    margin-left: 1.5rem;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: #615551;
+  }
+}
+
+.link {
+  max-width: 100rem;
+  padding: 5rem 4rem;
+  display: flex;
+
+  svg {
+    height: 3rem;
+    width: 3rem;
+    fill: $color-primary;
+    transform: translateY(-0.3rem);
+  }
+
+  p {
+    margin-left: 1.5rem;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 600;
+    white-space: pre;
+  }
+  a {
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: #615551;
+  }
+  input {
+    margin-left: 2rem;
+    width: 200px;
+    height: 30px;
+  }
+  .btn--round {
+    margin-left: 2rem;
+    position: relative;
+    bottom: 10%;
+  }
 }

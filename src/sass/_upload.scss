@@ -118,7 +118,18 @@
   }
 
   &__btn {
-    grid-column: 1 / -1;
+    grid-column: 1/ -1;
     justify-self: center;
   }
+}
+
+.change__btn {
+  grid-column: 1/ -1;
+  justify-self: right;
+  margin-bottom: -10rem;
+  height: 5.5rem;
+  width: 5.5rem;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
 }

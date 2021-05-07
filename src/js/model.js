@@ -32,7 +32,10 @@ function createNewRecipe(data) {
 
 export async function loadRecipe(id) {
   try {
-    const data = await getJSON(`${API_URL}${id}?key=${API_KEY}`);
+    let key = localStorage.getItem('key');
+    const data = await getJSON(
+      `${API_URL}${id}?key=${key ? key.slice(1, -1) : API_KEY}`
+    );
     state.recipe = createNewRecipe(data);
 
     if (state.favourites.some(favourite => id == favourite.id)) {
@@ -41,17 +44,18 @@ export async function loadRecipe(id) {
       state.recipe.favourited = false;
     }
   } catch (err) {
-    // Error handling
-    console.error(`${err} bppl`);
     throw err;
   }
 }
 
 export async function loadSearch(query) {
   try {
+    let key = localStorage.getItem('key');
     state.search.query = query;
 
-    const data = await getJSON(`${API_URL}?search=${query}&key=${API_KEY}`);
+    const data = await getJSON(
+      `${API_URL}?search=${query}&key=${key ? key.slice(1, -1) : API_KEY}`
+    );
 
     state.search.results = data.data.recipes.map(recipe => {
       let searchResult = {
@@ -66,7 +70,6 @@ export async function loadSearch(query) {
       return searchResult;
     });
   } catch (err) {
-    console.error(`${err} boom`);
     throw err;
   }
 }
@@ -93,6 +96,11 @@ export function toggleFavourite(recipe) {
 
 export async function addRecipe(recipe) {
   try {
+    let key = localStorage.getItem('key');
+    if (!key) {
+      throw new Error('key');
+    }
+
     const ings = Object.entries(recipe).filter(data =>
       data[0].startsWith('ingredient')
     );
@@ -125,9 +133,12 @@ export async function addRecipe(recipe) {
       servings: Number(recipe.servings),
       ingredients,
     };
-    const data = await postJSON(`${API_URL}?key=${API_KEY}`, newRecipe);
+    const data = await postJSON(
+      `${API_URL}?key=${key.slice(1, -1)}`,
+      newRecipe
+    );
     state.recipe = createNewRecipe(data);
-    addFavourite(state.recipe);
+    toggleFavourite(state.recipe);
   } catch (err) {
     throw err;
   }
@@ -155,6 +166,10 @@ export function updateCount(id, newCount) {
   state.shoppingList.find(item => id == item.id).count =
     newCount == 0 ? null : newCount;
   localStorage.setItem('shoppingList', JSON.stringify(state.shoppingList));
+}
+
+export function addKey(key) {
+  localStorage.setItem('key', JSON.stringify(key));
 }
 
 function init() {

@@ -103,27 +103,40 @@ function handleDeleteShoppingAll() {
 async function handleAddRecipe(recipe) {
   try {
     AddRecipeView.renderSpinner();
-    await model.addRecipe(recipe);
-    recipeView.render(model.state.recipe);
-    addRecipeView.renderMsg();
-    FavouritesView.render(model.state.favourites);
+    if ('key' in recipe) {
+      model.addKey(recipe['key']);
+      addRecipeView.renderMsg('Thank you! Please try adding your recipe now!');
+      setTimeout(function () {
+        AddRecipeView.render('render');
+      }, ADD_RECIPE_FAIL_MSEC);
+    } else {
+      await model.addRecipe(recipe);
+      recipeView.render(model.state.recipe);
+      addRecipeView.renderMsg();
+      FavouritesView.render(model.state.favourites);
 
-    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+      window.history.pushState(null, '', `#${model.state.recipe.id}`);
+    }
 
     setTimeout(function () {
       AddRecipeView.closeWindow();
     }, ADD_RECIPE_SUCCESS_MSEC);
   } catch (err) {
-    AddRecipeView.renderError(err.message);
-    setTimeout(function () {
-      AddRecipeView.render('render');
-    }, ADD_RECIPE_FAIL_MSEC);
+    if (err.message == 'key') {
+      addRecipeView.renderLink();
+    } else {
+      AddRecipeView.renderError(err.message);
+      setTimeout(function () {
+        AddRecipeView.render('render');
+      }, ADD_RECIPE_FAIL_MSEC);
+    }
   }
 }
 
 function init() {
   FavouritesView.HandlerRender(FavouritesView.render(model.state.favourites));
   ListView.HandlerRender(ListView.render(model.state.shoppingList));
+  AddRecipeView.HandlerRender(AddRecipeView.render('render'));
   RecipeView.HandlerRender(handleRecipes);
   SearchView.HandlerSearch(runSearch);
   RecipeView.HandlerServingUpdate(handleServings);
@@ -135,5 +148,6 @@ function init() {
   AddRecipeView.HandlerToggleWindow();
   AddRecipeView.HandlerCloseWindow();
   AddRecipeView.HandlerAddRecipe(handleAddRecipe);
+  // AddRecipeView.HandlerChangeLink();
 }
 init();

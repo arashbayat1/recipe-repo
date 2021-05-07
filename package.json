@@ -2,6 +2,9 @@
   "name": "recipe-repo",
   "version": "1.0.0",
   "description": "Recipe Database and Application",
+  "engines": {
+    "node": "14.x"
+  },
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --no-cache",
